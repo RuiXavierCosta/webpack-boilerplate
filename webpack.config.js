@@ -8,7 +8,31 @@ module.exports = {
     filename: 'my-first-webpack.bundle.js'
   },
   module: {
-    rules: [{ test: /\.txt$/, use: 'raw-loader' }]
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ]
+      },
+      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+      { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
+    ]
   },
   plugins: []
 };
